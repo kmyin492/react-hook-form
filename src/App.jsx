@@ -1,21 +1,26 @@
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useState , useEffect } from "react";
 import "./App.css";
 
  export default function App() {
-  const [show , setShow]= useState(false);
+  const [ show , setShow]= useState(false);
   const { register, handleSubmit , watch , formState }  = useForm();
   const {errors}= formState;
   const name = watch("name");
   const email = watch("email");
   const age = watch("age");
+  useEffect(() => {
+  if (show && (!name || !email || !age)) {
+    setShow(false);
+  }
+}, [show, name, email, age]);
 const onsubmit = (data) => {
   console.log(data);
 }
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="relative bg-white shadow-lg rounded-2xl p-10 text-center">
-      <h1 className=" relative font-bold addmb-15 text-blue-700 justify-center underline text-2xl"> React Hook Form</h1>
+      <h1 className=" relative font-bold mb-10 text-blue-700 justify-center underline text-2xl"> React Hook Form</h1>
       <form onSubmit={handleSubmit(onsubmit)}>
         <div className="relative mb-8">
           <label htmlFor="name">Name: </label>
@@ -61,6 +66,7 @@ const onsubmit = (data) => {
     </div>
   </div>
 )}
+
 <p>Your name is : {name}</p><br />
 <p>Your email is: {email}</p><br />
 <p>Your age is : {age}</p><br />
