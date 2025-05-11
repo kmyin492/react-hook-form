@@ -4,7 +4,8 @@ import "./App.css";
 
  export default function App() {
   const [show , setShow]= useState(false);
-  const { register, handleSubmit , watch } = useForm();
+  const { register, handleSubmit , watch , formState }  = useForm();
+  const {errors}= formState;
   const name = watch("name");
   const email = watch("email");
   const age = watch("age");
@@ -14,7 +15,7 @@ const onsubmit = (data) => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="relative bg-white shadow-lg rounded-2xl p-10 text-center">
-      <h1 className=" relative font-bold mb-15 text-blue-700 justify-center underline text-2xl"> React Hook Form</h1>
+      <h1 className=" relative font-bold addmb-15 text-blue-700 justify-center underline text-2xl"> React Hook Form</h1>
       <form onSubmit={handleSubmit(onsubmit)}>
         <div className="relative mb-8">
           <label htmlFor="name">Name: </label>
@@ -24,7 +25,8 @@ const onsubmit = (data) => {
           placeholder="Enter your name"
           {...register("name",{required:'Name is required'})}
           />
-          
+          <p>{errors.name?.message}
+          </p>
         </div>
         <div className=" relative mb-8">
           <label htmlFor="email" className="pr-1">Email: </label>
@@ -34,6 +36,7 @@ const onsubmit = (data) => {
           placeholder="Enter your email"
           {...register("email",{required:'Email is required'})}
           />
+          <p>{errors.email?.message}</p>
         </div>
 
          <div className=" relative mb-8">
@@ -44,9 +47,10 @@ const onsubmit = (data) => {
           placeholder="Enter your age"
           {...register("age",{required:'Age is required'})}
           />
+          <p>{errors.age?.message}</p>
         </div>
 <button  onClick={() => setShow(true)}  className=" text-lg text-white bg-blue-700 rounded-2xl py-2 px-7 mb-5 hover:bg-blue-600 duration-200 active:bg-blue-700" >Submit</button>
-{show && (
+{show && name && email && age &&(
   <div className="absolute rounded-2xl top-0 left-0 w-full h-full bg-blue-700 bg-opacity-90 flex items-center justify-center">
     <div className="bg-white p-5 rounded-lg shadow-lg">
       <h2 className="text-xl font-bold mb-4">Form Data</h2>
